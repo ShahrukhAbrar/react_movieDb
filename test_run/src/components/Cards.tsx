@@ -1,6 +1,20 @@
+import { useEffect } from "react";
 
 const Cards = () => {
     const MovieNames = ['SpiderMan','Cars', 'Rush','SpiderMan','Cars', 'Rush','SpiderMan','Cars', 'Rush','SpiderMan','Cars', 'Rush']
+
+    useEffect(() => {
+      (async () => {
+        try {
+          // await async "fetchBooks()" function
+          const books = await fetch('http://localhost:3000/movie');
+          const booksJson = await books.json();
+          console.log(booksJson[0].Title)
+        } catch (err) {
+          console.log('Error occured when fetching books');
+        }
+      })();
+    }, []);
 
 
   return (
