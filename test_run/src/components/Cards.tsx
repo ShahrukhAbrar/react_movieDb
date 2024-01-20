@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { useState } from "react";
 
 const Cards = () => {
-  const MovieNames = [{ name: "haha" }, { name: "hehe" }];
   const [Movies, setMovies] = useState<any[]>([]);//re evaluate <any> if it doesnt work the next time :: for afnan
 
   useEffect(() => {
@@ -14,11 +13,10 @@ const Cards = () => {
       const books = await fetch("http://localhost:3000/movie");
       const booksJson = await books.json();
       setMovies(booksJson);
+      console.log(booksJson)
     } catch (err) {
       console.log("Error occured when fetching movies");
     }
-    console.log(Movies);
-    console.log(MovieNames);
   };
 
   return (
@@ -27,13 +25,13 @@ const Cards = () => {
         {Movies.map((MovieName) => (
           <div className="card" style={{ width: "18rem" }}>
             <img
-              src="https://media.themoviedb.org/t/p/w300_and_h450_bestv2/8Vt6mWEReuy4Of61Lnj5Xj704m8.jpg"
+              src={MovieName.POSTER_URL}
               className="card-img-top"
               alt="..."
             />
             <div className="card-body">
-              <h5 className="card-title">{MovieName.Title}</h5>
-              <p className="card-text">Gwens Betrayal and cool graphics!</p>
+              <h5 className="card-title">{MovieName.TITLE}</h5>
+              <p className="card-text">{"Rating: "+MovieName.RATING}</p>
               <a href="#" className="btn btn-primary">
                 More on
               </a>

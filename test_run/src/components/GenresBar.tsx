@@ -1,3 +1,5 @@
+import { NavLink} from "react-router-dom";
+
 const GenreBar = () => {
   const Genres = [
     "Action",
@@ -30,9 +32,9 @@ const GenreBar = () => {
             <ul className="navbar-nav">
               {Genres.map((genre) => (
                 <li className="nav-item">
-                  <a className="nav-link" aria-current="page" href="#">
+                  <NavLink className="nav-link" aria-current="page" to={"/genre/"+genre}>
                     {genre}
-                  </a>
+                  </NavLink>
                 </li>
               ))}
             </ul>

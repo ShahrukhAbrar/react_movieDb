@@ -7,7 +7,7 @@ app.use(cors());
 
 const config = {
   server: 'DESKTOP-PFJUO84',
-  database: 'moviedb',
+  database: 'MovDB',
   user: 'afnan',
   password: '1234',
   port:1433,
@@ -23,6 +23,20 @@ const config = {
 app.get('/', (req, res, next) => {
     res.send('respond with a resource');
 });
+app.get('/genre', async (req, res, next) => {
+  const genreTerm = req.query.q;
+  console.log(genreTerm)
+
+  if (!genreTerm) {
+    return res.status(400).json({ error: 'Search term is required' });
+  }
+
+  let pool = await sql.connect(config)
+
+  let result = await pool.request().query('SELECT * from GENRE');
+
+  res.send(result.recordset);
+})
 
 app.get('/actors', async (req, res, next) => {
     let pool = await sql.connect(config)
@@ -35,7 +49,7 @@ app.get('/actors', async (req, res, next) => {
 app.get('/movie', async (req, res, next) => {
   let pool = await sql.connect(config)
 
-  let result = await pool.request().query('SELECT * from Movies');
+  let result = await pool.request().query('SELECT * from MOVIE');
 
   res.send(result.recordset);
 });
