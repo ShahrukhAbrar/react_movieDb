@@ -1,4 +1,4 @@
-import { NavLink} from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const GenreBar = () => {
   const Genres = [
@@ -32,7 +32,11 @@ const GenreBar = () => {
             <ul className="navbar-nav">
               {Genres.map((genre) => (
                 <li className="nav-item">
-                  <NavLink className="nav-link" aria-current="page" to={"/genre/"+genre}>
+                  <NavLink
+                    className="nav-link"
+                    aria-current="page"
+                    to={"/genre/" + genre}
+                  >
                     {genre}
                   </NavLink>
                 </li>

@@ -6,9 +6,9 @@ const app = express();
 app.use(cors());
 
 const config = {
-  server: 'DESKTOP-FKQO1VC',
-  database: 'dbms',
-  user: 'shahrukh',
+  server: 'DESKTOP-PFJUO84',
+  database: 'MovDB',
+  user: 'afnan',
   password: '1234',
   port:1433,
   options: {
@@ -17,26 +17,22 @@ const config = {
   }
 }
 
-
-
-
 app.get('/', (req, res, next) => {
     res.send('Server is Up!!');
 });
 
 //Genre Filter Query
-app.get('/genre/:genreName', async (req, res, next) => {
-  const { genreName } = req.params;
+app.get('/genre', async (req, res, next) => {
+  const genreTerm = req.query.q;
 
   try {
     let pool = await sql.connect(config);
     let result = await pool.request()
-      .input('GenreName', sql.VarChar, genreName)
       .query(
-        `SELECT m.title, m.poster_url, m.rating, m.movie_score FROM movie m
+        `SELECT m.title, m.poster_url, m.rating FROM movie m
          INNER JOIN movie_genre mg ON m.MOVIE_ID = mg.MOVIE_ID
          INNER JOIN genre g ON mg.GENRE_ID = g.GENRE_ID
-         WHERE g.GENRE_NAME = @GenreName`
+         WHERE g.GENRE_NAME = '${genreTerm}'`
       );
 
     res.send(result.recordset);
@@ -47,17 +43,16 @@ app.get('/genre/:genreName', async (req, res, next) => {
 });
 
 //searching Query
-app.get('/search/:searchterm', async (req, res, next) => {
-  const { searchterm } = req.params;
+app.get('/search', async (req, res, next) => {
+  const searchTerm = req.query.q;
 
   try {
     let pool = await sql.connect(config);
     let result = await pool.request()
-      .input('searchterm', sql.VarChar, `%${searchterm}%`)
       .query(`
-        SELECT TITLE, POSTER_URL, RATING, MOVIE_SCORE 
+        SELECT TITLE, POSTER_URL, RATING
         FROM MOVIE 
-        WHERE TITLE LIKE @searchterm`
+        WHERE TITLE LIKE '%${searchTerm}%'`
       );
 
     res.send(result.recordset);
@@ -68,16 +63,15 @@ app.get('/search/:searchterm', async (req, res, next) => {
 });
 
 //MoreON query
-app.get('/movie/:searchterm', async (req, res, next) => {
-  const { searchterm } = req.params;
+app.get('/movieDetail', async (req, res, next) => {
+  detail = req.query.q
 
   try {
     let pool = await sql.connect(config);
     let result = await pool.request()
-      .input('searchterm', sql.VarChar, searchterm)
       .query(`
         SELECT * FROM MOVIE
-        WHERE TITLE = @searchterm
+        WHERE MOVIE_ID = ${detail}
         `
       );
 
@@ -94,7 +88,7 @@ app.get('/movies', async (req, res, next) => {
     let pool = await sql.connect(config);
     let result = await pool.request()
       .query(
-        `SELECT TITLE, RATING, POSTER_URL, MOVIE_SCORE FROM MOVIE`
+        `SELECT MOVIE_ID,TITLE, RATING, POSTER_URL FROM MOVIE`
       );
 
     res.send(result.recordset);
@@ -103,8 +97,6 @@ app.get('/movies', async (req, res, next) => {
     res.status(500).send('Internal Server Error');
   }
 });
-
-
 
 
 const PORT = process.env.PORT || 3000;
