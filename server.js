@@ -20,6 +20,7 @@ const config = {
 
 
 /* GET users listing. */
+/*API Call functions start here :: DO NOT MODIFY WITHOUT DISCUSSION:: WILL BREAK THE SYSTEM */
 app.get('/', (req, res, next) => {
     res.send('respond with a resource');
 });
