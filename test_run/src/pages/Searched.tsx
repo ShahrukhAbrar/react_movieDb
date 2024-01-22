@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 
 function Searched() {
   let params = useParams();
@@ -29,13 +29,16 @@ function Searched() {
     <>
       <div className="wrapper">
         {searchedMovie.map((Movie) => (
-          <div className="card" style={{ width: "18rem" }}>
-            <img src={Movie.POSTER_URL} className="card-img-top" alt="..." />
-            <div className="card-body">
-              <h5 className="card-title">{Movie.TITLE}</h5>
-              <p className="card-text">{"Rating: " + Movie.RATING}</p>
-              <a href="#" className="btn btn-primary">
+          <div className="card card-page3" style={{ width: "18rem" }}>
+            <img src={Movie.POSTER_URL} className="card-image-page3" alt="..." />
+            <div className="card-content-page3">
+              <h5 className="card-text-p3">{Movie.TITLE}</h5>
+              <p className="card-text-p3 subtext">{"Rating: " + Movie.RATING}</p>
+              <NavLink to={"/movieDetail/" + Movie.TITLE} className="find-out">
                 More on
+              </NavLink>
+              <a className="find-out wishlist-btn">
+                <i className="bi bi-bookmark-fill"></i>
               </a>
             </div>
           </div>

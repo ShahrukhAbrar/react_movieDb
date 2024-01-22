@@ -12,10 +12,11 @@ const Search = () => {
   };
 
   return (
-    <nav className="navbar bg-body-tertiary">
+    <nav className="navbar">
       <div className="container-fluid">
-        <NavLink className="navbar-brand" to={"/"}>
-          Risky Reels
+        <NavLink className="navbar-brand brand" to={"/"}>
+          <i className="bi bi-code-slash"> </i>
+          filmSorted
         </NavLink>
         <form className="d-flex" role="search">
           <input
@@ -26,7 +27,7 @@ const Search = () => {
             onChange={(e) => setIntput(e.target.value)}
           />
           <button
-            className="btn btn-outline-success"
+            className="srch-btn"
             type="submit"
             onClick={submitHandler}
           >

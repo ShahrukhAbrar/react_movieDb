@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import { useState } from "react";
 import { useEffect } from "react";
 
@@ -30,13 +30,16 @@ function Category() {
     <>
       <div className="wrapper">
         {Genre.map((Movie) => (
-          <div className="card" style={{ width: "18rem" }}>
-            <img src={Movie.poster_url} className="card-img-top" alt="..." />
-            <div className="card-body">
-              <h5 className="card-title">{Movie.title}</h5>
-              <p className="card-text">{"Rating: " + Movie.rating}</p>
-              <a href="#" className="btn btn-primary">
-                More on
+          <div className="card card-page3" style={{ width: "18rem" }}>
+            <img src={Movie.poster_url} className="card-image-page3" alt="..." />
+            <div className="card-content-page3">
+              <h5 className="card-text-p3">{Movie.title}</h5>
+              <p className="card-text-p3 subtext">{"Rating: " + Movie.rating}</p>
+              <NavLink to={"/movieDetail/" + Movie.title} className="find-out">
+                Find out more
+              </NavLink>
+              <a className="find-out wishlist-btn">
+                <i className="bi bi-bookmark-fill"></i>
               </a>
             </div>
           </div>
