@@ -25,7 +25,11 @@ const Cards = () => {
     <>
       <div className="wrapper">
         {Movies.map((MovieName) => (
-          <div className="card card-page3" style={{ width: "18rem" }}>
+          <NavLink
+            to={"/movieDetail/" + MovieName.TITLE}
+            className="card card-page3"
+            style={{ width: "18rem" }}
+          >
             <img
               src={MovieName.POSTER_URL}
               className="card-image-page3"
@@ -35,18 +39,14 @@ const Cards = () => {
               <h5 className="card-text-p3">{MovieName.TITLE}</h5>
               <p className="card-text-p3 subtext">
                 {"Rating: " + MovieName.RATING}
+                <br />
+                {"Score: ⭐" + MovieName.MOVIE_SCORE}
               </p>
-              <NavLink
-                to={"/movieDetail/" + MovieName.MOVIE_ID}
-                className="find-out"
-              >
-                Find out more
-              </NavLink>
               <a className="find-out wishlist-btn">
                 <i className="bi bi-bookmark-fill"></i>
               </a>
             </div>
-          </div>
+          </NavLink>
         ))}
       </div>
     </>
