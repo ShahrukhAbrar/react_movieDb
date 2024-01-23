@@ -2,11 +2,10 @@ import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 
 const Search = () => {
-  const [input, setIntput] = useState<any[]>([]);
+  const [input, setIntput] = useState<string>("");
   const navigate = useNavigate();
 
-  const submitHandler = (e: { preventDefault: () => void }) => {
-    e.preventDefault();
+  const submitHandler = () => {
     console.log("Submitted: " + input);
     navigate("/search/" + input);
   };
@@ -24,15 +23,11 @@ const Search = () => {
             type="search"
             placeholder="Search"
             aria-label="Search"
-            onChange={(e) => setIntput(e.target.value)}
+            onChange={(e) => {
+              setIntput(e.target.value);
+              submitHandler();
+            }}
           />
-          <button
-            className="srch-btn"
-            type="submit"
-            onClick={submitHandler}
-          >
-            Search
-          </button>
         </form>
       </div>
     </nav>

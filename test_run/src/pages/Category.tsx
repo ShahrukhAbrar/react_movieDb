@@ -30,19 +30,28 @@ function Category() {
     <>
       <div className="wrapper">
         {Genre.map((Movie) => (
-          <div className="card card-page3" style={{ width: "18rem" }}>
-            <img src={Movie.poster_url} className="card-image-page3" alt="..." />
+          <NavLink
+            to={"/movieDetail/" + Movie.title}
+            className="card card-page3"
+            style={{ width: "18rem" }}
+          >
+            <img
+              src={Movie.poster_url}
+              className="card-image-page3"
+              alt="..."
+            />
             <div className="card-content-page3">
               <h5 className="card-text-p3">{Movie.title}</h5>
-              <p className="card-text-p3 subtext">{"Rating: " + Movie.rating}</p>
-              <NavLink to={"/movieDetail/" + Movie.title} className="find-out">
-                Find out more
-              </NavLink>
+              <p className="card-text-p3 subtext">
+                {"Rating: " + Movie.rating}
+                <br />
+                {"Score: ⭐" + Movie.movie_score}
+              </p>
               <a className="find-out wishlist-btn">
                 <i className="bi bi-bookmark-fill"></i>
               </a>
             </div>
-          </div>
+          </NavLink>
         ))}
       </div>
     </>
