@@ -6,9 +6,9 @@ const app = express();
 app.use(cors());
 
 const config = {
-  server: 'DESKTOP-PFJUO84',
-  database: 'MovDB',
-  user: 'afnan',
+  server: 'DESKTOP-FKQO1VC',
+  database: 'dbms',
+  user: 'shahrukh',
   password: '1234',
   port:1433,
   options: {
@@ -29,7 +29,7 @@ app.get('/genre', async (req, res, next) => {
     let pool = await sql.connect(config);
     let result = await pool.request()
       .query(
-        `SELECT m.title, m.poster_url, m.rating FROM movie m
+        `SELECT m.movie_id,m.title, m.poster_url, m.rating, m.movie_score FROM movie m
          INNER JOIN movie_genre mg ON m.MOVIE_ID = mg.MOVIE_ID
          INNER JOIN genre g ON mg.GENRE_ID = g.GENRE_ID
          WHERE g.GENRE_NAME = '${genreTerm}'`
@@ -50,7 +50,7 @@ app.get('/search', async (req, res, next) => {
     let pool = await sql.connect(config);
     let result = await pool.request()
       .query(`
-        SELECT TITLE, POSTER_URL, RATING
+        SELECT TITLE, POSTER_URL, RATING, MOVIE_SCORE
         FROM MOVIE 
         WHERE TITLE LIKE '%${searchTerm}%'`
       );
@@ -64,16 +64,16 @@ app.get('/search', async (req, res, next) => {
 
 //MoreON query
 app.get('/movieDetail', async (req, res, next) => {
-  detail = req.query.q
+  const detail = req.query.q;
 
   try {
-    let pool = await sql.connect(config);
-    let result = await pool.request()
+    const pool = await sql.connect(config);
+    const result = await pool.request()
+      .input('title', sql.NVarChar, detail)
       .query(`
         SELECT * FROM MOVIE
-        WHERE MOVIE_ID = ${detail}
-        `
-      );
+        WHERE TITLE = @title
+      `);
 
     res.send(result.recordset);
   } catch (err) {
@@ -82,13 +82,14 @@ app.get('/movieDetail', async (req, res, next) => {
   }
 });
 
+
 //returns all movies details FROM DBMS
 app.get('/movies', async (req, res, next) => {
   try {
     let pool = await sql.connect(config);
     let result = await pool.request()
       .query(
-        `SELECT MOVIE_ID,TITLE, RATING, POSTER_URL FROM MOVIE`
+        `SELECT MOVIE_ID,TITLE, RATING, POSTER_URL, MOVIE_SCORE FROM MOVIE`
       );
 
     res.send(result.recordset);
