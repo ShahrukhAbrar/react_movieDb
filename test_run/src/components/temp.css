@@ -121,3 +121,6 @@
     font-size: 16px;
     font-weight: bold;
 }
+.srch-btn:hover{
+    opacity: 0.7;
+}
