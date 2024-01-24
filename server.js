@@ -61,6 +61,22 @@ app.get('/search', async (req, res, next) => {
     res.status(500).send('Internal Server Error');
   }
 });
+app.get('/authenticateLogin', async (req, res, next) => {
+  const username = req.query.q;
+
+  try {
+    let pool = await sql.connect(config);
+    let result = await pool.request()
+      .query(`
+        SELECT COUNT(*) as isPresent FROM USER_ WHERE UNAME = '${username}'`
+      );
+
+    res.send(result.recordset);
+  } catch (err) {
+    console.error('Error executing SQL query:', err);
+    res.status(500).send('Internal Server Error');
+  }
+});
 
 //MoreON query
 app.get('/movieDetail', async (req, res, next) => {
@@ -98,6 +114,8 @@ app.get('/movies', async (req, res, next) => {
     res.status(500).send('Internal Server Error');
   }
 });
+
+
 
 
 const PORT = process.env.PORT || 3000;
