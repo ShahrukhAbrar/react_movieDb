@@ -6,9 +6,9 @@ const app = express();
 app.use(cors());
 
 const config = {
-  server: 'DESKTOP-FKQO1VC',
-  database: 'dbms',
-  user: 'shahrukh',
+  server: 'DESKTOP-PFJUO84',
+  database: 'filmDB',
+  user: 'afnan',
   password: '1234',
   port:1433,
   options: {
@@ -89,7 +89,7 @@ app.get('/movies', async (req, res, next) => {
     let pool = await sql.connect(config);
     let result = await pool.request()
       .query(
-        `SELECT MOVIE_ID,TITLE, RATING, POSTER_URL, MOVIE_SCORE FROM MOVIE`
+        `SELECT MOVIE_ID,TITLE, RATING, POSTER_URL, MOVIE_SCORE FROM MOVIE ORDER BY MOVIE_ID DESC`
       );
 
     res.send(result.recordset);
