@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { NavLink, useParams } from "react-router-dom";
+import DescNav from "../components/DescNav";
 
 function Searched() {
   let params = useParams();
@@ -27,24 +28,25 @@ function Searched() {
 
   return (
     <>
+      <DescNav description={"Searched: " + params.searched} />
       <div className="wrapper">
         {searchedMovie.map((Movie) => (
           <NavLink
-            to={"/movieDetail/" + Movie.TITLE}
+            to={"/movieDetail/" + Movie.title}
             className="card card-page3"
             style={{ width: "18rem" }}
           >
             <img
-              src={Movie.POSTER_URL}
+              src={Movie.poster_url}
               className="card-image-page3"
               alt="..."
             />
             <div className="card-content-page3">
-              <h5 className="card-text-p3">{Movie.TITLE}</h5>
+              <h5 className="card-text-p3">{Movie.title}</h5>
               <p className="card-text-p3 subtext">
-                {"Rating: " + Movie.RATING}
+                {"Rating: " + Movie.rating}
                 <br />
-                {"Score: ⭐" + Movie.MOVIE_SCORE}
+                {"Score: ⭐" + Movie.score}
               </p>
               <a className="find-out wishlist-btn">
                 <i className="bi bi-bookmark-fill"></i>

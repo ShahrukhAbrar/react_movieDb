@@ -1,6 +1,7 @@
 import { NavLink, useParams } from "react-router-dom";
 import { useState } from "react";
 import { useEffect } from "react";
+import DescNav from "../components/DescNav";
 
 function Category() {
   let params = useParams();
@@ -28,6 +29,7 @@ function Category() {
 
   return (
     <>
+      <DescNav description={params.type} />
       <div className="wrapper">
         {Genre.map((Movie) => (
           <NavLink
@@ -45,7 +47,7 @@ function Category() {
               <p className="card-text-p3 subtext">
                 {"Rating: " + Movie.rating}
                 <br />
-                {"Score: ⭐" + Movie.movie_score}
+                {"Score: ⭐" + Movie.score}
               </p>
               <a className="find-out wishlist-btn">
                 <i className="bi bi-bookmark-fill"></i>

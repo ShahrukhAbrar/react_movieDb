@@ -1,12 +1,19 @@
 import Category from "./Category.tsx";
 import Home from "./Home.tsx";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import Searched from "./Searched.tsx";
 import FilmDetail from "./FilmDetail.tsx";
 import Search from "../components/Search.tsx";
 import GenreBar from "../components/GenresBar.tsx";
+import { useEffect } from "react";
 
 function Pages() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    navigate("/");
+  },[])
+
   return (
     <>
       <Search />

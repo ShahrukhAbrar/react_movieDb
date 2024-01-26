@@ -7,7 +7,7 @@ app.use(cors());
 
 const config = {
   server: 'DESKTOP-PFJUO84',
-  database: 'filmDB',
+  database: 'filmSorted',
   user: 'afnan',
   password: '1234',
   port:1433,
@@ -29,15 +29,29 @@ app.get('/genre', async (req, res, next) => {
     let pool = await sql.connect(config);
     let result = await pool.request()
       .query(
-        `SELECT m.movie_id,m.title, m.poster_url, m.rating, m.movie_score FROM movie m
-         INNER JOIN movie_genre mg ON m.MOVIE_ID = mg.MOVIE_ID
-         INNER JOIN genre g ON mg.GENRE_ID = g.GENRE_ID
-         WHERE g.GENRE_NAME = '${genreTerm}'`
+        `exec movie_genres'${genreTerm}'`
       );
 
     res.send(result.recordset);
   } catch (error) {
     console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+app.get('/authenticateLogin', async (req, res, next) => {
+  const username = req.query.q;
+
+  try {
+    let pool = await sql.connect(config);
+    let result = await pool.request()
+      .query(`
+        SELECT COUNT(*) as isPresent FROM users WHERE name = '${username}'`
+      );
+
+    res.send(result.recordset);
+  } catch (err) {
+    console.error('Error executing SQL query:', err);
     res.status(500).send('Internal Server Error');
   }
 });
@@ -50,25 +64,7 @@ app.get('/search', async (req, res, next) => {
     let pool = await sql.connect(config);
     let result = await pool.request()
       .query(`
-        SELECT TITLE, POSTER_URL, RATING, MOVIE_SCORE
-        FROM MOVIE 
-        WHERE TITLE LIKE '${searchTerm}%'`
-      );
-
-    res.send(result.recordset);
-  } catch (err) {
-    console.error('Error executing SQL query:', err);
-    res.status(500).send('Internal Server Error');
-  }
-});
-app.get('/authenticateLogin', async (req, res, next) => {
-  const username = req.query.q;
-
-  try {
-    let pool = await sql.connect(config);
-    let result = await pool.request()
-      .query(`
-        SELECT COUNT(*) as isPresent FROM USER_ WHERE UNAME = '${username}'`
+        exec search'%${searchTerm}%'`
       );
 
     res.send(result.recordset);
@@ -87,7 +83,7 @@ app.get('/movieDetail', async (req, res, next) => {
     const result = await pool.request()
       .input('title', sql.NVarChar, detail)
       .query(`
-        SELECT * FROM MOVIE
+        SELECT * FROM movies
         WHERE TITLE = @title
       `);
 
@@ -105,7 +101,7 @@ app.get('/movies', async (req, res, next) => {
     let pool = await sql.connect(config);
     let result = await pool.request()
       .query(
-        `SELECT MOVIE_ID,TITLE, RATING, POSTER_URL, MOVIE_SCORE FROM MOVIE ORDER BY MOVIE_ID DESC`
+        `exec movie_cards`
       );
 
     res.send(result.recordset);
@@ -114,8 +110,6 @@ app.get('/movies', async (req, res, next) => {
     res.status(500).send('Internal Server Error');
   }
 });
-
-
 
 
 const PORT = process.env.PORT || 3000;

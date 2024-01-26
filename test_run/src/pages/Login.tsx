@@ -7,25 +7,32 @@ function Login() {
   const [input, setInput] = useState("");
 
   useEffect(() => {
-    console.log(authenticated)
-  },[])
+
+    const loginItemLS = JSON.parse(localStorage.getItem("loginKey") || JSON.stringify(""));
+
+    if (loginItemLS == "Ns34S#183jK" && loginItemLS != "") {
+      setAuthenticated(true);
+    }
+  }, []);
 
   const initLogin = async (input: any) => {
-    const loginData = await fetch(`http://localhost:3000/authenticateLogin?q=${input}`)
-    const loginJson = await loginData.json()
+    const loginData = await fetch(
+      `http://localhost:3000/authenticateLogin?q=${input}`
+    );
+    const loginJson = await loginData.json();
 
-    if(loginJson[0].isPresent == 1){
-        setAuthenticated(true)
-    }else{
-        console.log("NO USERNAME FOUND")
+    if (loginJson[0].isPresent == 1) {
+      setAuthenticated(true);
+      localStorage.setItem("loginKey", JSON.stringify("Ns34S#183jK"));
+    } else {
+      console.log("NO USERNAME FOUND");
     }
-  }
-  const loginSubmitHandler = (e: { preventDefault: () => void; }) => {
-    console.log(input)
+  };
+  const loginSubmitHandler = (e: { preventDefault: () => void }) => {
+    console.log(input);
     e.preventDefault();
     initLogin(input);
-
-  } 
+  };
 
   return (
     <>

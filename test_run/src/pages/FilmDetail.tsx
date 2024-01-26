@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { easeOut, motion, spring } from "framer-motion";
 
 function FilmDetail() {
   let params = useParams();
@@ -28,23 +29,52 @@ function FilmDetail() {
     <>
       {film.map((movie) => (
         <div className="detail-card">
-          <div className="detail-card-content">
-            <h1 className="detail-card-text">{movie.TITLE}</h1>
-            <h3 className="detail-card-text overview">Overview:</h3>
-            <p className="detail-card-text overview-text">
-              {movie.OVERVIEW}
+          <div className="detail-card detail-card-gradient"></div>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.25, ease: [0,.79,.18,1], type: spring }}
+            className="detail-card-content"
+          >
+            <motion.h1
+              initial={{ opacity: 0, y: "100%" }}
+              animate={{ opacity: 1, y: "50%" }}
+              transition={{ duration: 0.45, ease: easeOut, type: spring }}
+              className="detail-card-text dc-title"
+            >
+              {movie.title}
+            </motion.h1>
+            <motion.h3
+              initial={{ opacity: 0, y: "100%" }}
+              animate={{ opacity: 1, y: "0%" }}
+              transition={{ duration: 0.6, ease: [0,.79,.18,1]}}
+              className="detail-card-text overview"
+            >
+              Overview:
+            </motion.h3>
+            <motion.p
+              initial={{ opacity: 0, y: "100%" }}
+              animate={{ opacity: 1, y: "0%" }}
+              transition={{ duration: 0.45, ease: [0,.79,.18,1]}}
+              className="detail-card-text overview-text"
+            >
+              {movie.overview}
               <br></br>
               <br></br>
               <span className="film-attributes">
-                Score: ⭐{movie.MOVIE_SCORE}
-                &emsp;&emsp;&emsp;{movie.RELEASE_DATE.split("T")[0]}&emsp;&emsp;&emsp;Romance&emsp;&emsp;&emsp;
-                {movie.RUNTIME}&emsp;&emsp;{movie.RATING}
+                Score: ⭐{movie.score}
+                &emsp;&emsp;&emsp;{movie.release_date.split("T")[0]}
+                &emsp;&emsp;&emsp;Romance&emsp;&emsp;&emsp;
+                {movie.runtime}&emsp;&emsp;{movie.rating}
               </span>
-            </p>
-            <a className="find-out detail-card-btn">Watch</a>
-          </div>
+              <br />
+              <span className="film-attributes">{"Cast: "+movie.actor_names}</span>
+            </motion.p>
+            <a className="find-out detail-card-btn" href={movie.trailer_url}>Watch Trailer</a>
+          </motion.div>
+          
           <img
-            src="https://image.tmdb.org/t/p/original/dIWwZW7dJJtqC6CgWzYkNVKIUm8.jpg"
+            src={movie.banner_url}
             className="detail-image"
           ></img>
         </div>
