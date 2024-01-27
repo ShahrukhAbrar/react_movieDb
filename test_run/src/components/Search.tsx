@@ -14,7 +14,7 @@ const Search = () => {
     <nav className="navbar">
       <div className="container-fluid">
         <NavLink className="navbar-brand brand" to={"/"}>
-          <i className="bi bi-code-slash"> </i>
+        <i className="bi bi-database-check"> </i>
           filmSorted
         </NavLink>
         <form className="d-flex" role="search">

@@ -1,7 +1,7 @@
 function Skeleton() {
   return (
     <div className="skeleton-loader">
-
+      
     </div>
   );
 }

@@ -10,7 +10,7 @@ function Login() {
 
     const loginItemLS = JSON.parse(localStorage.getItem("loginKey") || JSON.stringify(""));
 
-    if (loginItemLS == "Ns34S#183jK" && loginItemLS != "") {
+    if (loginItemLS) {
       setAuthenticated(true);
     }
   }, []);
@@ -23,7 +23,7 @@ function Login() {
 
     if (loginJson[0].isPresent == 1) {
       setAuthenticated(true);
-      localStorage.setItem("loginKey", JSON.stringify("Ns34S#183jK"));
+      localStorage.setItem("loginKey", JSON.stringify(input));
     } else {
       console.log("NO USERNAME FOUND");
     }
@@ -33,6 +33,22 @@ function Login() {
     e.preventDefault();
     initLogin(input);
   };
+
+  const initRegister = async (input: any) => {
+    const regData = await fetch(
+      `http://localhost:3000/register?q=${input}`
+    );
+    console.log("bot")
+    //initLogin(input);
+  };
+
+  const registerSubmitHandler = (e: { preventDefault: () => void }) => {
+    console.log("registering: "+input);
+    e.preventDefault();
+    initRegister(input);
+  };
+
+  
 
   return (
     <>
@@ -63,7 +79,7 @@ function Login() {
             >
               Login
             </button>
-            <button type="submit" className="btn btn-outline-danger ms-2">
+            <button type="submit" className="btn btn-outline-danger ms-2" onClick={registerSubmitHandler}>
               Register
             </button>
           </form>

@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const GenreBar = () => {
   const Genres = [
@@ -9,6 +9,11 @@ const GenreBar = () => {
     "Horror",
     "Romance",
   ];
+  const navigate = useNavigate();
+
+  const submitHandler = () => {
+    navigate("/dashboard");
+  };
 
   return (
     <>
@@ -43,6 +48,7 @@ const GenreBar = () => {
               ))}
             </ul>
           </div>
+          <button className="dashboard-btn" onClick={submitHandler}><i className="bi bi-person-circle"></i></button>
         </div>
       </nav>
     </>
