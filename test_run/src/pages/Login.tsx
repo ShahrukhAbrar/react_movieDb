@@ -5,10 +5,12 @@ import { BrowserRouter } from "react-router-dom";
 function Login() {
   const [authenticated, setAuthenticated] = useState(false);
   const [input, setInput] = useState("");
+  const [error, setError] = useState("");
 
   useEffect(() => {
-
-    const loginItemLS = JSON.parse(localStorage.getItem("loginKey") || JSON.stringify(""));
+    const loginItemLS = JSON.parse(
+      localStorage.getItem("loginKey") || JSON.stringify("")
+    );
 
     if (loginItemLS) {
       setAuthenticated(true);
@@ -25,30 +27,34 @@ function Login() {
       setAuthenticated(true);
       localStorage.setItem("loginKey", JSON.stringify(input));
     } else {
-      console.log("NO USERNAME FOUND");
+      setError("ERROR: No Username found!");
     }
   };
   const loginSubmitHandler = (e: { preventDefault: () => void }) => {
-    console.log(input);
     e.preventDefault();
-    initLogin(input);
+    if (input === "") {
+      setError("Input field empty");
+    } else {
+      initLogin(input);
+    }
   };
 
   const initRegister = async (input: any) => {
-    const regData = await fetch(
-      `http://localhost:3000/register?q=${input}`
-    );
-    console.log("bot")
-    //initLogin(input);
+    const regData = await fetch(`http://localhost:3000/register?q=${input}`);
+    const regJson = await regData.json();
+    console.log(regJson);
+    setError(regJson[0].REG_ERROR);
   };
 
   const registerSubmitHandler = (e: { preventDefault: () => void }) => {
-    console.log("registering: "+input);
     e.preventDefault();
-    initRegister(input);
+    if (input === "") {
+      setError("Input field empty");
+    } else {
+      console.log("registering: " + input);
+      initRegister(input);
+    }
   };
-
-  
 
   return (
     <>
@@ -71,6 +77,9 @@ function Login() {
               <div id="emailHelp" className="form-text">
                 We'll never share your data with anyone else.
               </div>
+              <div id="emailHelp" className=" login-error">
+                {error}
+              </div>
             </div>
             <button
               type="submit"
@@ -79,7 +88,11 @@ function Login() {
             >
               Login
             </button>
-            <button type="submit" className="btn btn-outline-danger ms-2" onClick={registerSubmitHandler}>
+            <button
+              type="submit"
+              className="btn btn-outline-danger ms-2"
+              onClick={registerSubmitHandler}
+            >
               Register
             </button>
           </form>

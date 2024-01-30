@@ -228,6 +228,12 @@
     color: #000;
     border-radius: 20px;
     padding:5px 10px;
+    border: none;
+    border-radius: 25px;
+    font-family: 'Raleway', serif;
+    font-size: 14px;
+    font-weight: bolder;
+    margin: 0 0.25rem;
 }
 .watchlist-btn{
     left: 63%;
@@ -237,4 +243,8 @@
     position: absolute;
     width: 10em;
     top: 0;
+}
+
+.login-error{
+    color: #de4a4a;
 }

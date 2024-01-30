@@ -33,8 +33,13 @@ function FilmDetail() {
     const addtoWL = await fetch(
       `http://localhost:3000/wishlist?q=${film[0].id}&u=${loginItemLS}`
     );    
-
     setAlert("Added!")
+      const aWLJson = await addtoWL.json()
+
+      if(aWLJson[0].AWL_ERROR == "Record Already in wishlist table"){
+        setAlert("Already Added :)")
+      }
+
   };
   const RemoveFromWatchList = async () => {
     const loginItemLS = JSON.parse(
@@ -45,6 +50,13 @@ function FilmDetail() {
     );
 
     setRAlert("Removed!!")
+    const rmvJson = await rmvtoWL.json()
+
+    console.log(rmvJson[0].UWL_ERROR)
+    if(rmvJson[0].UWL_ERROR == "No Record Found"){
+      setRAlert("Already Removed :(")
+      return
+    }
   };
 
   return (

@@ -15,6 +15,11 @@ const GenreBar = () => {
     navigate("/dashboard");
   };
 
+  const logoutHandler = () => {
+    localStorage.removeItem('loginKey');
+    location.reload();
+  };
+
   return (
     <>
       <nav className="navbar navbar-expand-lg">
@@ -48,7 +53,8 @@ const GenreBar = () => {
               ))}
             </ul>
           </div>
-          <button className="dashboard-btn" onClick={submitHandler}><i className="bi bi-person-circle"></i></button>
+          <button className="dashboard-btn" onClick={submitHandler}><i className="bi bi-person-fill"></i>Dashboard</button>
+          <button className="dashboard-btn" onClick={logoutHandler}>Logout</button>
         </div>
       </nav>
     </>

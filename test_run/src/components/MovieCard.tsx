@@ -21,9 +21,7 @@ function MovieCard(props: { Movie: { title: string | number | boolean | ReactEle
                 <br />
                 {"Score: ⭐" + props.Movie.score}
               </p>
-              <a className="find-out wishlist-btn">
-                <i className="bi bi-bookmark-fill"></i>
-              </a>
+
             </div>
           </NavLink>
     </>

@@ -58,7 +58,7 @@ app.get("/search", async (req, res, next) => {
   try {
     let pool = await sql.connect(config);
     let result = await pool.request().query(`
-        exec search'%${searchTerm}%'`);
+        exec search'${searchTerm}'`);
 
     res.send(result.recordset);
   } catch (err) {
